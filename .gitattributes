@@ -3,4 +3,4 @@
 *.xml linguist-detectable=false
 *.ipynb linguist-detectable=false
 *.js linguist-detectable=false
-*.CSS linguist-detectable=false
+*.css  linguist-detectable=false
