@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/fontawesome.min.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+    <script src="https://kit.fontawesome.com/f6dcf461c1.js" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/c147dc6f82.js" crossorigin="anonymous"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Music App</title>
+
+</head>
+<style>
+    /* Google Font 'Poppins'  */
+    
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+    * {
+        padding: 0%;
+        margin: 0%;
+        box-sizing: border-box;
+    }
+    
+    body {
+        width: 100%;
+        background-color:#0b1320;
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    header {
+        width: 100%;
+        height: 100%;
+        /* border: 1px solid #fff; */
+        display: flex;
+        flex-wrap: wrap;
+        overflow: hidden;
+    }
+    
+    header .menu_side,
+    .song_side {
+        position: relative;
+        width: 25%;
+        height: 100%;
+        /* border: 1px solid #fff; */
+        background-color: #111727;
+        box-shadow: 5px 0px 2px #090f1f;
+        color: #fff;
+    }
+    
+    header .song_side {
+        width: 75%;
+        background: #0b1320;
+    }
+    
+    header .master_play {
+        width: 100%;
+        height: 10%;
+        background: #111727;
+        box-shadow: 0px 3px 8px #090f1f;
+    }
+    
+    header .menu_side h1 {
+        font-size: 30px;
+        margin: 15px 0px 0px 20px;
+        font-weight: 500;
+    }
+    
+    header .menu_side .playlist {
+        margin: 40px 0px 0px 20px;
+    }
+    
+    header .menu_side .playlist h4 {
+        font-size: 17px;
+        font-weight: 400;
+        padding-bottom: 10px;
+        color: #4c5262;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        transition: .3s linear;
+    }
+    
+    header .menu_side .playlist h4:hover {
+        color: #fff;
+    }
+    
+    header .menu_side .playlist h4 span {
+        position: relative;
+        margin-right: 35px;
+    }
+    
+    header .menu_side .playlist h4 span::before {
+        content: '';
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border: 2px solid #4c5262;
+        border-radius: 50%;
+        top: -4px;
+        transition: .3s linear;
+    }
+    
+    header .menu_side .playlist h4:hover span::before {
+        border: 2px solid #fff;
+    }
+    
+    header .menu_side .playlist h4 .bi {
+        display: none;
+    }
+    
+    header .menu_side .playlist .active {
+        color: #36e2ec;
+    }
+    
+    header .menu_side .playlist .active span {
+        display: none;
+    }
+    
+    header .menu_side .playlist .active .bi {
+        display: flex;
+        margin-right: 20px;
+    }
+    
+    header .menu_side .menu_song {
+        width: 100%;
+        height: 100vh;
+        /* border: 1px solid #fff; */
+        margin-top: 40px;
+    }
+    
+    header .menu_side .menu_song li {
+        position: relative;
+        list-style-type: none;
+        padding: 5px 0px 5px 20px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: .3s linear;
+    }
+    
+    header .menu_side .menu_song li:hover {
+        background: rgb(105, 105, 170, .1);
+    }
+    
+    header .menu_side .menu_song li span {
+        font-size: 12px;
+        font-weight: 600;
+        color: #4c5262;
+    }
+    
+    header .menu_side .menu_song li img {
+        width: 52px;
+        height: 52px;
+        margin-left: 25px;
+    }
+    
+    header .menu_side .menu_song li h5 {
+        font-size: 18px;
+        margin-left: 15px;
+    }
+    
+    header .menu_side .menu_song li h5 .subtitle {
+        font-size: 12px;
+        color: #4c5262;
+    }
+    
+    header .menu_side .menu_song li .bi {
+        position: absolute;
+        right: 20px;
+        top: 6px;
+        font-size: 16px;
+    }
+    
+    header .master_play {
+        position: fixed;
+  		left: 0;
+ 		bottom: 0;
+  		width: 100%;
+		height: 20%;
+	   height: fit-content;
+        align-items: center;
+        padding: 0px 20px;
+    }
+    
+    header .master_play .wave {
+        width: 30px;
+        height: 30px;
+        /* border: 1px solid #fff; */
+        padding-bottom: 5px;
+        display: flex;
+        align-items: flex-end;
+        margin-right: 10px;
+    }
+    
+    header .master_play .wave .wave1 {
+        width: 3px;
+        height: 10px;
+        margin-right: 3px;
+        border-radius: 10px 10px 0px 0px;
+        background: #36e2ec;
+        animation: unset;
+    }
+    
+    header .master_play .wave .wave1:nth-child(2) {
+        height: 13px;
+        /* animation-delay: .4s; */
+    }
+    
+    header .master_play .wave .wave1:nth-child(3) {
+        height: 8px;
+        /* animation-delay: .8s; */
+    }
+    /* javascript class wave  */
+    
+    header .master_play .active2 .wave1 {
+        animation: wave .5s linear infinite;
+    }
+    
+    header .master_play .active2 .wave1:nth-child(2) {
+        animation-delay: .4s;
+    }
+    
+    header .master_play .active2 .wave1:nth-child(3) {
+        animation-delay: .8s;
+    }
+    
+    @keyframes wave {
+        0% {
+            height: 10px;
+        }
+        50% {
+            height: 15px;
+        }
+        100% {
+            height: 10px;
+        }
+    }
+    
+    header .master_play img {
+        width: 35px;
+        height: 35px;
+    }
+    
+    header .master_play h5 {
+        width: 130px;
+        font-size: 16px;
+        margin-left: 15px;
+        color: #fff;
+        line-height: 17px;
+    }
+    
+    header .master_play h5 .subtitle {
+        font-size: 12px;
+        color: #4c5262;
+    }
+    
+    header .master_play .icon {
+        font-size: 20px;
+        color: #fff;
+        margin: 0px 20px 0px 40px;
+        outline: none;
+    }
+    
+    header .master_play .icon .bi {
+        cursor: pointer;
+        outline: none;
+    }
+    
+    header .master_play .icon .bi:nth-child(2) {
+        border: 1px solid rgb(105, 105, 170, .1);
+        border-radius: 50%;
+        padding: 1px 4px 0px 6px;
+        margin: 0px 5px;
+        transition: .3s linear;
+    }
+    
+    header .master_play span {
+        color: #fff;
+        width: 32px;
+        font-size: 11px;
+        font-weight: 400;
+    }
+    
+    header .master_play #currentStart {
+        margin: 0px 0px 0px 20px;
+    }
+    
+    header .master_play .bar {
+    position: relative;
+    width: 43%;
+    height: 2px;
+    background: rgb(105, 105, 170,.1);
+    margin: 0px 15px 0px 10px;
+}
+header .master_play .bar .bar2{
+   position: absolute;
+   background: #36e2ec;
+   width: 0%;
+   height: 100%;
+   top: 0;
+   transition: 1s linear;
+}
+header .master_play .bar .dot{
+   position: absolute;
+   width: 5px;
+   height: 5px;
+   background: #36e2ec;
+   border-radius: 50%;
+   left: 0%;
+   top: -1px;
+   transition: 1s linear;
+}
+header .master_play .bar .dot::before{
+    content: '';
+   position: absolute;
+   width: 15px;
+   height: 15px;
+   border:1px solid #36e2ec;
+   border-radius: 50%;
+   left: -6px;
+   top: -6px;
+  box-shadow: inset 0px 0px 3px #36e2ec;
+}
+header .master_play .bar input{
+   position: absolute;
+   width: 100%;
+   top: -6px;
+   left: 0;
+   cursor: pointer;
+   z-index: 99999999;
+   transition: 3s linear;
+   opacity: 0;
+}
+header .master_play .vol{
+  position: relative;
+  width: 100px;
+  height: 2px;
+  margin-left: 50px;
+ background: rgb(105, 105, 170,.1); 
+}
+header .master_play .vol .bi{
+position: absolute;
+color: #fff;
+font-size: 25px;
+top: -17px;
+left: -30px;
+}
+header .master_play .vol input{
+    position: absolute;
+    width: 100%;
+    top: -10px;
+    left: 0;
+    cursor: pointer;
+    z-index: 99999999;
+    transition: 3s linear;
+    opacity: 0;
+ }
+
+ header .master_play .vol .vol_bar{
+    position: absolute;
+    background: #36e2ec;
+    width: 0%;
+    height: 100%;
+    top: 0;
+    transition: 1s linear;
+ }
+ header .master_play .vol .dot{
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: #36e2ec;
+    border-radius: 50%;
+    left: 0%;
+    top: -1px;
+    transition: 1s linear;
+ }
+ header .master_play .vol .dot::before{
+     content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border:1px solid #36e2ec;
+    border-radius: 50%;
+    left: -6px;
+    top: -6px;
+   box-shadow: inset 0px 0px 3px #36e2ec;
+ }
+
+    header .song_side {
+        z-index: 2;
+    }
+    
+    header .song_side::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 300px;
+        background: url('../static/script/img/bg.png');
+        z-index: -1;
+    }
+    
+    header .song_side nav {
+        width: 90%;
+        height: 10%;
+        margin: auto;
+        /* border: 1px solid #fff; */
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    header .song_side nav ul {
+        display: flex;
+    }
+    
+    header .song_side nav ul li {
+        position: relative;
+        list-style-type: none;
+        font-size: 16px;
+        color: #4c5262;
+        margin-right: 25px;
+        cursor: pointer;
+        transition: .3s linear;
+    }
+    
+    header .song_side nav ul li:hover {
+        color: #fff;
+    }
+    
+    header .song_side nav ul li:nth-child(1) {
+        color: #fff;
+    }
+    
+    header .song_side nav ul li span {
+        position: absolute;
+        width: 100%;
+        height: 2.5px;
+        background: #36e2ec;
+        bottom: -5px;
+        left: 0;
+        border-radius: 20px;
+    }
+    
+    header .song_side nav .search {
+        position: relative;
+        width: 40%;
+        padding: 1px 10px;
+        border-radius: 20px;
+        color: gray;
+    }
+    
+    header .song_side nav .search::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        background: rgb(184, 184, 184, .1);
+        backdrop-filter: blur(5px);
+        z-index: -1;
+    }
+    
+    header .song_side nav .search .bi {
+        font-size: 13px;
+        padding: 3px 0px 0px 10px;
+    }
+    
+    header .song_side nav .search input {
+        background: none;
+        outline: none;
+        border: none;
+        padding: 0px 10px;
+        color: #fff;
+        font-size: 12px;
+    }
+    
+    header .song_side nav .user {
+        padding-left: 13px;
+        width: auto;
+        height: 30px;
+        border: 2px solid #36e2ec;
+        outline: none;
+        border-radius: 8px;
+        background: #36e2ec;
+        color: rgb(15, 0, 0);
+        cursor: pointer;
+        transition: .3s linear;
+    }
+    
+    header .song_side nav .user a {
+        text-decoration: none;
+        text-align: center;
+    }
+    
+    header .song_side .content {
+        width: 90%;
+        height: 30%;
+        margin: auto;
+        /* border: 1px solid #fff; */
+        padding-top: 20px;
+    }
+    
+    header .song_side .content h1 {
+        font-size: 25px;
+        font-weight: 600;
+    }
+    
+    header .song_side .content p {
+        font-size: 12px;
+        font-weight: 400;
+        color: #4c5262;
+        margin: 5px;
+    }
+    
+    header .song_side .content .buttons {
+        margin-top: 15px;
+    }
+    
+    header .song_side .content .buttons button {
+        width: 190px;
+        height: 30px;
+        border: 2px solid #12edab;
+        outline: none;
+        border-radius: 20px;
+        background: #5adae0;
+        color: rgb(18, 1, 1);
+        cursor: pointer;
+        transition: .3s linear;
+    }
+    
+    header .song_side .content .buttons button:hover {
+        border: 2px solid #36e2ec;
+        background: none;
+        color: #36e2ec;
+    }
+    
+    header .song_side .content .buttons button:nth-child(2) {
+        border: 2px solid #36e2ec;
+        background: none;
+        color: #36e2ec;
+    }
+    
+    header .song_side .content .buttons button:nth-child(2):hover {
+        border: 2px solid #36e2ec;
+        background: #36e2ec;
+        color: #fff;
+    }
+    
+    header .song_side .popular_song {
+        width: 90%;
+        height: auto;
+        /* border: 1px solid #fff; */
+        margin: auto;
+        margin-top: 15px;
+    }
+    
+    header .song_side .popular_song .h4 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    header .song_side .popular_song .h4 .bi {
+        color: #a4a8b4;
+        cursor: pointer;
+        transition: .3s linear;
+    }
+    
+    header .song_side .popular_song .h4 .bi:hover {
+        color: #fff;
+    }
+    
+    header .song_side .popular_song .pop_song {
+        width: 100%;
+        height: 150px;
+        margin-top: 15px;
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+    }
+    
+    header .song_side .popular_song .pop_song::-webkit-scrollbar {
+        display: none;
+    }
+    
+    header .song_side .popular_song .pop_song li {
+        min-width: 100px;
+        height: 140px;
+        list-style-type: none;
+        margin-right: 10px;
+        transition: .3s linear;
+    }
+    
+    header .song_side .popular_song .pop_song li:hover {
+        background: rgb(105, 105, 170, .1);
+    }
+    
+    header .song_side .popular_song .pop_song li .img_play {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    header .song_side .popular_song .pop_song li .img_play img {
+        width: 100%;
+        height: 100%;
+    }
+    
+    header .song_side .popular_song .pop_song li .img_play .bi {
+        position: absolute;
+        font-size: 20px;
+        cursor: pointer;
+        transition: .3s linear;
+        opacity: 0;
+    }
+    
+    header .song_side .popular_song .pop_song li .img_play:hover .bi {
+        opacity: 1;
+    }
+    
+    header .song_side .popular_song .pop_song li h5 {
+        padding: 5px 0px 0px 5px;
+        line-height: 15px;
+        font-size: 16px;
+    }
+    
+    header .song_side .popular_song .pop_song li h5 .subtitle {
+        font-size: 10px;
+        color: #4c5262;
+    }
+    
+    header .song_side .popular_artists {
+        width: 90%;
+        height: auto;
+        /* border: 1px solid #fff; */
+        margin: auto;
+        margin-top: 15px;
+    }
+    
+    header .song_side .popular_artists .h4 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    header .song_side .popular_artists .h4 .bi {
+        color: #a4a8b4;
+        cursor: pointer;
+        transition: .3s linear;
+    }
+    
+    header .song_side .popular_artists .h4 .bi:hover {
+        color: #fff;
+    }
+    
+    header .song_side .popular_artists .item {
+        width: 100%;
+        height: auto;
+        margin-top: 10px;
+        display: flex;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+    }
+    
+    header .song_side .popular_artists .item::-webkit-scrollbar {
+        display: none;
+    }
+    
+    header .song_side .popular_artists .item li {
+        list-style-type: none;
+        position: relative;
+        min-width: 90px;
+        height: 80px;
+        /* background-color: #fff; */
+        border-radius: 50%;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+    
+    header .song_side .popular_artists .item li img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        position: absolute;
+    }
+.list-group{
+overflow:hidden;
+}
+    
+    .list-group-item {
+        background-color: #0b1320;
+    }
+    
+    .list-group-item:hover {
+        background-color: #0b1320;
+    }
+    
+    .progressbar_slide {
+position: relative;
+    width: 43%;
+    height: 5px;
+    background: #3d4450;
+    cursor: pointer;
+    margin: 0px 15px 0px 10px;
+ 	border-radius: 5px;
+        }
+    
+    .progressbar_range {
+        width: 0;
+        background: #36e2ec;
+        height: 5px;
+		border-radius: 5px;
+		
+    }
+    
+    .controls {
+        display: flex;
+        width: 100%;
+        height: 100px;
+        margin-top: -1px;
+        padding: 20px;
+        box-sizing: border-box;
+        transition: all 0.2s;
+    }
+    
+    .controls_plays {
+        flex: 2;
+        display: flex;
+        justify-content: space-around;
+    }
+    
+    .controls_player {
+        flex: 1;
+        fill: #7FE5A3;
+        display: flex;
+        justify-content: space-around;
+    }
+    
+    @media screen and (max-width: 420px) {
+        .controls {
+            flex-direction: column;
+            height: 200px;
+        }
+    }
+    
+    #plays_btn,
+    #prev_btn,
+    #next_btn {
+        cursor: pointer;
+        width: 26px;
+        max-width: 18px;
+        transition: all 0.2s;
+    }
+    
+    #plays_btn:hover,
+    #prev_btn:hover,
+    #next_btn:hover {
+        fill: #565349;
+    }
+    
+    #pause_btn {
+        display: none;
+    }
+.info{
+color: white;
+}
+.audio_player_img{
+        width: 50px;
+        height: 50px;
+    }
+
+</style>
+
+<body>
+    <audio id="audio">
+  <source id="shit" src="{{albu[0]['path']}}">
+</audio>
+    </head>
+
+    <body>
+        <header>
+            <div class="menu_side">
+				<div class="d-inline-flex p-2 bd-highlight"><img src="../static/logo.png" alt="MoodStudios" style="width:340px; height:125px; padding:20px;"></div>
+				<br>
+				<br>
+				<nav class="nav flex-column" style="margin-left:50px;">
+					
+  					<a class="nav-link" href="/" style="text-decoration: none; color: #36e2ec;" onMouseOver="this.style.color='white'" onMouseOut="this.style.color='#36e2ec'"><h4><form action="/" method="GET">HOME</form></h4></a>
+  					
+  					<a class="nav-link" href="/play_playlist" style="text-decoration: none; color: #36e2ec;" onMouseOver="this.style.color='white'" onMouseOut="this.style.color='#36e2ec'"><h4>Liked Songs</h4></a>
+  					<a class="nav-link" href="#" style="text-decoration: none; color: #36e2ec;" onMouseOver="this.style.color='white'" onMouseOut="this.style.color='#36e2ec'"><h4>PLAYLIST</h4></a>
+				</nav>
+						
+                <div class="menu_song" style="margin-top:20px;">
+                    <li class="album">
+                        <a href="/topeng">
+                            <img src="../static/script/img/top_hit_eng.png" alt="English">
+                        </a>
+                        <h5>
+                            <a style="text-decoration: none; color:white" href="/topeng">TOP HITS ENGLISH</a>
+                            <div class="subtitle">English</div>
+                        </h5>
+
+                    </li>
+                    <li class="album">
+                        <a href="/tophindi">
+                            <img src="../static/script/img/top_hit_hindi.png" alt="HINDI">
+                        </a>
+                        <h5>
+                            <a style="text-decoration: none; color:white" href="/tophindi">TOP HITS HINDI</a>
+                            <div class="subtitle">Hindi</div>
+                        </h5>
+
+                    </li>
+                    <li class="album">
+                        <a href="/topmarathi">
+                            <img src="../static/script/img/top_hit_marathi.png" alt="Marathi">
+                        </a>
+                        <h5>
+                            <a style="text-decoration: none; color:white" href="/topmarathi">TOP HITS MARATHI</a>
+                            <div class="subtitle">Marathi</div>
+                        </h5>
+
+                    </li>
+                    <li class="album">
+                        <a href="/toppunjabi">
+                            <img src="../static/script/img/top_hit_punjabi.png" alt="Punjabi">
+                        </a>
+                        <h5>
+                            <a style="text-decoration: none; color:white" href="/toppunjabi">TOP HITS PUNJABI</a>
+                            <div class="subtitle">Punjabi</div>
+                        </h5>
+
+                    </li>
+
+                </div>
+            </div>
+
+
+            <div class="song_side">
+                <nav>
+
+                    <ul style="background-color:#0b1320;">
+                        <li style="font-size:large;">Discover <span></span></li>
+
+
+                    </ul>
+
+                    
+							<div class="d-flex flex-row-reverse bd-highlight">
+								
+  								<div class="p-2 bd-highlight">
+								
+								<div class="btn-group btn-group-lg" role="group" aria-label="Basic example">
+								{% if session.logged_in==NULL %}
+  										<button type="button" class="btn btn-info"><a href="/register" class="text-dark" style="padding:20px;font-size:medium;">REGISTER</a></button>
+  										<button type="button" href="/login" class="btn btn-info"><a href="/login" class="text-dark" style="padding:20px; font-size:medium;">LOGIN</a></button>
+								{% endif %}
+								{% if session.logged_in!=NULL %}
+									<button type="button" href="/logout" class="btn btn-info"><a href="/logout" class="text-dark" style="padding:20px; font-size:medium;" >{{session.username}} - Logout</a></button>
+								{% endif %}
+								</div>
+								</div>
+							</div>
+                        
+                    
+                </nav>
+                <div class="flash_msg">
+                    {% include 'includes/_messages.html' %} {% block body %}{% endblock %}
+                </div>
+                <div class="content">
+                    <h1>NEUTRAL</h1>
+                    <p>
+                        Play songs based on your current mood
+                        <br>
+                    </p>
+
+                </div>
+<br>
+				
+				<div class="d-flex flex-row mb-3">
+  					<div class="p-2 align-self-center " style="margin-left:50px; font-size:medium;">Capture Emotion Again -  </div> 
+           			<div class="p-2 "><form action="/index" method="GET"><button class="capbutton" style="font-size:medium;" >capture</button></form></div>
+  					<div class="p-2 align-self-center bd-highlight" style="margin-left:50px; font-size:medium;">
+						   Change Emotions -</div>
+							
+		     				<div class="p-2 align-self-center ">
+  								<button onclick="myFunction()" class="dropbtn" style="style="color width:90px; height:35px; font-size:medium;">Neutral <i class="fa-solid fa-caret-down"></i></button>
+  									<div id="myDropdown" class="dropdown-content">
+    							<form action="/sad" method="GET"><a style="font-size:medium;" href="/sad">Sad</a></form>
+    							<form action="/angry" method="GET"><a style="font-size:medium;" href="/angry">Angry</a></form>
+    							<form action="/fear" method="GET"><a style="font-size:medium;" href="/fear">Fear</a></form>
+								<form action="/happy" method="GET"><a style="font-size:medium;" href="/happy">Happy</a></form>
+								<form action="/surprise" method="GET"><a style="font-size:medium;" href="/surprise">Surprise</a></form>
+  								</div>
+			 				
+					</div>
+					<div class="p-2 align-self-center bd-highlight" style="margin-left:50px; font-size:medium;">
+						   Change Language -</div>
+					<div class="p-2 align-self-center ">
+  								<button onclick="myFunct()" class="dropbtn" style="style="color width:90px; height:35px; font-size:medium;">Hindi<i class="fa-solid fa-caret-down"></i></button>
+  									<div id="myDropdown2" class="dropdown-content">
+    							<form action="/neutralmarathi" method="GET"><a style="font-size:medium;" href="/neutralmarathi">Marathi</a></form>
+    							<form action="/neutral" method="GET"><a style="font-size:medium;" href="/neutral">English</a></form>
+    							<form action="/neutralpunjabi" method="GET"><a style="font-size:medium;" href="/neutralpunjabi">Punjabi</a></form>
+								
+  								</div>
+			 				
+					</div>
+  					
+				</div>
+				
+				
+
+                <div >
+				  <div class="d-flex justify-content-evenly bd-highlight flex-row mb-3" style="margin-top:20px;">
+  						<div class="p-2 bd-highlight"><button type="button" class="list-group-item list-group-item-action" style="font-size:20px; text-align:center;" onclick="update1()"><img class="rounded mx-auto d-block" style="width:120px; height:120px; " src="{{albu[0]["cover_photo"]}}" alt="">{{albu[0]["song_name"]}}</button></div>	
+						<div class="p-2 bd-highlight"><button type="button" class="list-group-item list-group-item-action" style="font-size:20px; text-align:center;" onclick="update2()"><img class="rounded mx-auto d-block" style="width:120px; height:120px; " src="{{albu[1]["cover_photo"]}}" alt="">{{albu[1]["song_name"]}}</button></div>	
+						<div class="p-2 bd-highlight"><button type="button" class="list-group-item list-group-item-action" style="font-size:20px; text-align:center;" onclick="update3()"><img class="rounded mx-auto d-block" style="width:120px; height:120px; " src="{{albu[2]["cover_photo"]}}" alt="">{{albu[2]["song_name"]}}</button></div>	
+				 		<div class="p-2 bd-highlight"><button type="button" class="list-group-item list-group-item-action" style="font-size:20px; text-align:center;" onclick="update4()"><img class="rounded mx-auto d-block" style="width:120px; height:120px; " src="{{albu[3]["cover_photo"]}}" alt="">{{albu[3]["song_name"]}}</button></div>						
+				 		<div class="p-2 bd-highlight"><button type="button" class="list-group-item list-group-item-action" style="font-size:20px; text-align:center;" onclick="update5()"><img class="rounded mx-auto d-block" style="width:120px; height:120px; " src="{{albu[4]["cover_photo"]}}" alt="">{{albu[4]["song_name"]}}</button></div>
+				  </div>
+				  <div class="d-flex justify-content-evenly flex-row bd-highlight mb-3" style="margin-top:20px;">
+						<div class="p-2 bd-highlight"><button type="button" class="list-group-item list-group-item-action" style="font-size:20px; text-align:center;" onclick="update6()"><img class="rounded mx-auto d-block" style="width:120px; height:120px; " src="{{albu[5]["cover_photo"]}}" alt="">{{albu[5]["song_name"]}}</button></div>
+						<div class="p-2 bd-highlight"><button type="button" class="list-group-item list-group-item-action" style="font-size:20px; text-align:center;" onclick="update7()"><img class="rounded mx-auto d-block" style="width:120px; height:120px; " src="{{albu[6]["cover_photo"]}}" alt="">{{albu[6]["song_name"]}}</button></div>
+						<div class="p-2 bd-highlight"><button type="button" class="list-group-item list-group-item-action" style="font-size:20px; text-align:center;" onclick="update8()"><img class="rounded mx-auto d-block" style="width:120px; height:120px; " src="{{albu[7]["cover_photo"]}}" alt="">{{albu[7]["song_name"]}}</button></div>
+						<div class="p-2 bd-highlight"><button type="button" class="list-group-item list-group-item-action" style="font-size:20px; text-align:center;" onclick="update9()"><img class="rounded mx-auto d-block" style="width:120px; height:120px; " src="{{albu[8]["cover_photo"]}}" alt="">{{albu[8]["song_name"]}}</button></div>
+						<div class="p-2 bd-highlight"><button type="button" class="list-group-item list-group-item-action" style="font-size:20px; text-align:center;" onclick="update10()"><img class="rounded mx-auto d-block" style="width:120px; height:120px; " src="{{albu[9]["cover_photo"]}}"  alt="">{{albu[9]["song_name"]}}</button></div> 
+
+				</div>
+                    
+                </div>
+            </div>
+
+
+<div class="master_play">
+<div class="audio-player">
+<div class="d-flex flex-row align-items-center">
+	<div class="p-2 align-self-center">
+		<div class="wave">
+            <div class="wave1"></div>
+            <div class="wave1"></div>
+            <div class="wave1"></div>
+        </div>
+	</div>
+  <div class="p-2"><div class="info">
+			<img id='c_f' src="{{albu[0]["cover_photo"]}}" class="audio_player_img" style="width:75px; height:75px;" alt=""></div>
+	</div>
+  <div class="p-2" style="width:180px;"><div class="info">
+			
+            <h3 id="name">{{albu[0]["song_name"]}}</h3>
+            
+            <p id="s_id">{{albu[0]['id']}}</p>
+            </div>
+</div>
+
+<div class="align-self-center" style="margin-left:45px;">
+<div class="d-flex flex-row align-items-center">
+  <div class="p-2" style="margin: 0px 15px 0px 5px;">
+            <div class="controls_plays">
+			<Button id="prev_btn" onclick="prev()" class="like" style="background-color:#111727; border: none;"><i class="fa-solid fa-backward-step" style="color:white; font-size: large;"></i></button>
+				
+		</div>
+	</div>
+	<div class="p-2" style="margin: 0px 5px 0px 5px;">
+            <div class="controls_plays">
+			<div id="plays_btn" >
+					<Button id="play_btn" class="like" style="background-color:#111727; border: none;"><i class="fa-solid fa-play" style="color:white; font-size: large;"></i></button>
+                  
+					
+					<Button id="pause_btn" class="like" style="background-color:#111727; border: none;"><i class="fa-solid fa-pause" style="color:white; font-size: large;"></i></button>
+                </div>	
+	</div>
+	</div>
+	<div class="p-2" style="margin: 0px 15px 0px 5px;">
+            <div class="controls_plays">
+			<Button onclick="next()" id="next_btn" class="like" style="background-color:#111727; border: none;"><i class="fa-solid fa-forward-step" style="color:white; font-size: large;"></i></button>
+				
+	</div>
+	</div>
+	<div class="p-2" style="margin: 0px 15px 0px 5px;">
+            <div class="controls_plays">
+			<Button onclick="callFunctions()" id="btnh1" class="like" style="background-color:#111727; border: none;"><i class="fa-solid fa-heart" style="color:white; font-size: large;"></i></Button>	
+		</div>
+
+	</div>
+<div class="d-flex flex-row align-items-center">
+	<span id="currentStart">0:00</span>
+  <div class="p-2" >
+			<div class="p-2" style="width:300px;">
+			
+			<div class="bar" style="width:300px;">
+            		<input type="range" id="seek" min="0" value="0" max="100">
+            		<div class="bar2" id="bar2"></div>
+            		<div class="dot"></div>
+        		</div>
+			</div>
+
+	</div>
+	<span id="currentEnd" style="margin-left:30px;">0:00</span>
+
+</div>
+</div>
+</div>
+
+
+
+
+      <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script>
+                var str=""
+                var str1=""
+                var str2=""
+                var presses=""
+                var x=""
+				  var emo="neutralhindi"
+
+					function callFunctions(){
+      					Toggle1();
+      					change();
+   					}
+                  function change() {
+						emo="neutralhindi"
+                            str1='/save_playlist/'+document.getElementById("s_id").innerHTML;
+								str2=str1+'/'+	emo
+                            console.log(str2);
+                            window.open(str2,"_self");
+                  }
+</script>    
+<script>
+
+var btnvar1 = document.getElementById('btnh1');
+
+       function Toggle1(){
+                if (btnvar1.style.color =="red") {
+                    btnvar1.style.color = "grey"
+                }
+                else{
+                    btnvar1.style.color = "red"
+                }
+       }
+
+    var song =1;
+
+
+    function update1(){
+        song=1;
+        songid={{albu[0]["id"]}}
+        $("#play_btn").hide();
+        $("#pause_btn").show();
+        document.getElementById('shit').src="{{albu[0]["path"]}}";
+        document.getElementById("audio").load();
+        document.getElementById("audio").play();
+        document.getElementById("s_id").innerHTML=songid;
+        document.getElementById('name').innerHTML="{{albu[0]["song_name"]}}";
+		 document.getElementById('c_f').src="{{albu[0]["cover_photo"]}}";
+    }
+
+            function update2(){
+              song=2;
+              songid={{albu[1]["id"]}}
+              $("#play_btn").hide();
+              $("#pause_btn").show();
+              nameprev = "{{albu[0]["song_name"]}}";
+              namenext = "{{albu[2]["song_name"]}}";
+              document.getElementById('shit').src="{{albu[1]["path"]}}";
+              document.getElementById("audio").load();
+              document.getElementById("audio").play();
+              document.getElementById("s_id").innerHTML=songid;
+              document.getElementById('name').innerHTML="{{albu[1]["song_name"]}}";
+				document.getElementById('c_f').src="{{albu[1]["cover_photo"]}}";
+          }
+
+            function update3(){
+              song=3;
+              songid={{albu[2]["id"]}}
+              $("#play_btn").hide();
+              $("#pause_btn").show();
+              nameprev = "{{albu[1]["song_name"]}}";
+              namenext = "{{albu[3]["song_name"]}}";
+              document.getElementById('shit').src="{{albu[2]["path"]}}";
+              document.getElementById("audio").load();
+              document.getElementById("audio").play();
+              document.getElementById("s_id").innerHTML=songid;
+              document.getElementById('name').innerHTML="{{albu[2]["song_name"]}}";
+				document.getElementById('c_f').src="{{albu[2]["cover_photo"]}}";
+          }
+            function update4(){
+              song=4;
+              songid={{albu[3]["id"]}}
+              $("#play_btn").hide();
+              $("#pause_btn").show();
+              namenext = "{{albu[2]["song_name"]}}";
+              nameprev = "{{albu[4]["song_name"]}}";
+              document.getElementById('shit').src="{{albu[3]["path"]}}";
+              document.getElementById("audio").load();
+              document.getElementById("audio").play();
+              document.getElementById("s_id").innerHTML=songid;
+              document.getElementById('name').innerHTML="{{albu[3]["song_name"]}}";
+document.getElementById('c_f').src="{{albu[3]["cover_photo"]}}";
+          }
+
+            function update5(){
+              song=5;
+              songid={{albu[4]["id"]}}
+              $("#play_btn").hide();
+              $("#pause_btn").show();
+              nameprev = "{{albu[3]["song_name"]}}";
+              namenext = "{{albu[5]["song_name"]}}";
+              document.getElementById('shit').src="{{albu[4]["path"]}}";
+              document.getElementById("audio").load();
+              document.getElementById("audio").play();
+              document.getElementById("s_id").innerHTML=songid;
+              document.getElementById('name').innerHTML="{{albu[4]["song_name"]}}";
+document.getElementById('c_f').src="{{albu[4]["cover_photo"]}}";
+          }
+
+            function update6(){
+              song=6;
+              songid={{albu[5]["id"]}}
+              $("#play_btn").hide();
+              $("#pause_btn").show();
+              nameprev = "{{albu[4]["song_name"]}}";
+              namenext = "{{albu[6]["song_name"]}}";
+              document.getElementById('shit').src="{{albu[5]["path"]}}";
+              document.getElementById("audio").load();
+              document.getElementById("audio").play();
+              document.getElementById("s_id").innerHTML=songid;
+              document.getElementById('name').innerHTML="{{albu[5]["song_name"]}}";
+document.getElementById('c_f').src="{{albu[5]["cover_photo"]}}";
+          }
+
+            function update7(){
+              song=7;
+              songid={{albu[6]["id"]}}
+              $("#play_btn").hide();
+              $("#pause_btn").show();
+              nameprev = "{{albu[5]["song_name"]}}";
+              namenext = "{{albu[7]["song_name"]}}";
+              document.getElementById('shit').src="{{albu[6]["path"]}}";
+              document.getElementById("audio").load();
+              document.getElementById("audio").play();
+              document.getElementById("s_id").innerHTML=songid;
+              document.getElementById('name').innerHTML="{{albu[6]["song_name"]}}";
+document.getElementById('c_f').src="{{albu[6]["cover_photo"]}}";
+          }
+
+            function update8(){
+              song=8;
+              songid={{albu[7]["id"]}}
+              $("#play_btn").hide();
+              $("#pause_btn").show();
+              document.getElementById('shit').src="{{albu[7]["path"]}}";
+              nameprev = "So It Goes";
+              namenext = "Gateway Car";
+              document.getElementById("audio").load();
+              document.getElementById("audio").play();
+              document.getElementById("s_id").innerHTML=songid;
+              document.getElementById('name').innerHTML="{{albu[7]["song_name"]}}";
+document.getElementById('c_f').src="{{albu[7]["cover_photo"]}}";
+          }
+
+            function update9(){
+              song=9;
+              songid={{albu[8]["id"]}}
+              $("#play_btn").hide();
+              $("#pause_btn").show();
+              nameprev = "Gorgeous";
+              namenext = "Did Something Bad";
+              document.getElementById('shit').src="{{albu[8]["path"]}}";
+              document.getElementById("audio").load();
+              document.getElementById("audio").play();
+              document.getElementById("s_id").innerHTML=songid;
+              document.getElementById('name').innerHTML="{{albu[8]["song_name"]}}";
+document.getElementById('c_f').src="{{albu[8]["cover_photo"]}}";          
+}
+
+            function update10(){
+              song=10;
+              songid={{albu[9]["id"]}}
+              $("#play_btn").hide();
+              $("#pause_btn").show();
+              nameprev = "Happy New Year";
+              namenext = "Did Something Bad";
+              document.getElementById('shit').src="{{albu[9]["path"]}}";
+              document.getElementById("audio").load();
+              document.getElementById("audio").play();
+              document.getElementById("s_id").innerHTML=songid;
+              document.getElementById('name').innerHTML="{{albu[9]["song_name"]}}";
+document.getElementById('c_f').src="{{albu[9]["cover_photo"]}}";          
+}
+
+
+
+                    function next(){
+                      if(song+1===13) song=12;
+                      song=((song+1)%13+13)%13;
+                      $("#play_btn").hide();
+                      $("#pause_btn").show();
+                      console.log(song);
+                      update="update"+song+"()";
+                      eval(update);
+                    }
+                    function prev(){
+                      if(song-1===0) song=2;
+                      song=((song-1)%13+13)%13;
+                      console.log(song);
+                      update="update"+song+"()";
+                      eval(update);
+                    }
+                    
+
+                                        function myFunction() {
+                                            document.getElementById("myDropdown").classList.toggle("show");
+                                        }
+                    window.onclick = function(event) {
+                      if (!event.target.matches('.dropbtn')) {
+
+                        var dropdowns = document.getElementsByClassName("dropdown-content");
+                        var i;
+                        for (i = 0; i < dropdowns.length; i++) {
+                          var openDropdown = dropdowns[i];
+                          if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                          }
+                        }
+                      }
+                    }   
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+function myFunct() {
+    document.getElementById("myDropdown2").classList.toggle("show");
+  }
+  // Close the dropdown menu if the user clicks outside of it
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+    </script>
+                            <script  src="/static/index.js"></script>
+                            <script>
+                 
+
+                    function addinplaylist()
+                    {
+                          cur=mysql.connection.cursor()
+                          cur.execute("SELECT * FROM songs_list WHERE album LIKE 'Jus%'")
+                          albu7=cur.fetchall()
+                    }
+
+                    function closeNav() {
+                        document.getElementById("mySidenav").style.width = "0";
+
+                    }
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                      {% if messages %}
+                        {% for category, message in messages %}
+                          <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                      {% endif %}
+                    {% endwith %}
+
+                    </script>
+                    </body>
+                    </html>

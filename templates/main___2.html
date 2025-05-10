@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Emotion Based Music Recommendation System</title>
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+<style>  
+.left{  
+	text-align: center;  
+	padding-top: 100px;  
+}  
+ 
+</style>  
+</head>
+<body class="detail">
+    <nav>
+        <ul>
+            <h1>Emotion Based Music Recommendation System</h1>
+            <li><form action="/" method="GET"><a href="/">Home</a></form></li>
+			
+            <li><a href="">About</a></li>
+				{% if session.logged_in==NULL %}
+				<li><a href="/register" class="btn btn-primary btn-lg">REGISTER</a><li>
+				<li><a href="/login" class="btn btn-primary btn-lg">LOGIN</a><li>
+				{% endif %}
+				{% if session.logged_in!=NULL %}
+				<li>{{session.username}}<li>
+				<li><a href="/logout" class="btn btn-primary btn-lg">Logout</a><li>
+				
+				{% endif %}
+        </ul>
+    </nav>
+
+    <div >
+        
+        <br>
+        <div class="left">
+            <form action="/index" method="GET"><button class="capbutton">Capture emotions</button></form>
+        </div>
+    </div>
+    
+</body>
+
+</html>

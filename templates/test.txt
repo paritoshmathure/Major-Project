@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Emotion Based Music Recommendation System</title>
+	   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+	   <script src="https://kit.fontawesome.com/f6dcf461c1.js" crossorigin="anonymous"></script>        
+	</head>
+
+<body>
+<!--<img src=background1.jpg>-->
+<audio id="audio">
+<source id="shit" src="{{albu[0]["path"]}}">
+</audio>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <h1>Emotion Based Music Recommendation System</h1>
+            <li><form action="/" method="GET"><a href="/">Home</a></form></li>
+			
+            <li><a href="">About</a></li>
+				{% if session.logged_in==NULL %}
+				<li><a href="/register" class="btn btn-primary btn-lg">REGISTER</a><li>
+				<li><a href="/login" class="btn btn-primary btn-lg">LOGIN</a><li>
+				{% endif %}
+				{% if session.logged_in!=NULL %}
+				<li>{{session.username}}<li>
+				<li><a href="/logout" class="btn btn-primary btn-lg">Logout</a><li>
+				
+				{% endif %}
+        </ul>
+    </nav>
+<div class="flash_msg">
+			{% include 'includes/_messages.html' %}
+		{% block body %}{% endblock %}
+</div>
+
+</body>
+</html>
